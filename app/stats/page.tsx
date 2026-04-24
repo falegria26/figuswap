@@ -88,7 +88,7 @@ export default function StatsPage() {
       </div>
 
       {/* Círculo */}
-      <div className="bg-brand-surface rounded-3xl p-6 border border-brand-border shadow-card mb-4 fwc-pattern">
+      <div className="bg-brand-surface rounded-3xl p-6 border border-brand-border shadow-card mb-4">
         <CircleProgress percent={stats.percentComplete} />
       </div>
 
