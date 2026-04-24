@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { LogIn, Trophy, Flame, Download, Star } from 'lucide-react'
+import { Trophy, Flame, Download, Star } from 'lucide-react'
 import { useStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 
@@ -20,16 +20,15 @@ const ACHIEVEMENT_DEFS = [
 ]
 
 const LEVELS = [
-  { min: 0,   name: 'Principiante', color: 'text-brand-faint',  bg: 'bg-brand-surface-2' },
-  { min: 10,  name: 'Coleccionista',color: 'text-blue-600',     bg: 'bg-blue-50'         },
-  { min: 25,  name: 'Fanático',     color: 'text-purple-600',   bg: 'bg-purple-50'       },
-  { min: 50,  name: 'Experto',      color: 'text-amber-600',    bg: 'bg-amber-50'        },
-  { min: 75,  name: 'Maestro',      color: 'text-brand-red',    bg: 'bg-brand-red-light' },
-  { min: 100, name: '¡Campeón! 🏅', color: 'text-brand-gold',   bg: 'bg-brand-gold-light'},
+  { min: 0,   name: 'Principiante',  color: 'text-brand-faint',  bg: 'bg-brand-surface-2' },
+  { min: 10,  name: 'Coleccionista', color: 'text-blue-600',     bg: 'bg-blue-50'         },
+  { min: 25,  name: 'Fanático',      color: 'text-purple-600',   bg: 'bg-purple-50'       },
+  { min: 50,  name: 'Experto',       color: 'text-amber-600',    bg: 'bg-amber-50'        },
+  { min: 75,  name: 'Maestro',       color: 'text-brand-red',    bg: 'bg-brand-red-light' },
+  { min: 100, name: '¡Campeón! 🏅',  color: 'text-brand-gold',   bg: 'bg-brand-gold-light'},
 ]
 
 export default function PerfilPage() {
-  const user          = useStore(s => s.user)
   const achievements  = useStore(s => s.achievements)
   const streak        = useStore(s => s.streak)
   const getStats      = useStore(s => s.getStats)
@@ -39,8 +38,7 @@ export default function PerfilPage() {
 
   const stats       = getStats()
   const unlockedIds = new Set(achievements.map(a => a.id))
-
-  const level = [...LEVELS].reverse().find(l => stats.percentComplete >= l.min) ?? LEVELS[0]
+  const level       = [...LEVELS].reverse().find(l => stats.percentComplete >= l.min) ?? LEVELS[0]
 
   const exportData = () => {
     const data = { exportedAt: new Date().toISOString(), stats, stickerStates }
@@ -55,11 +53,8 @@ export default function PerfilPage() {
     <div className="min-h-screen px-4 pt-6 bg-brand-bg">
 
       {/* Hero card */}
-      <div className="bg-brand-surface border border-brand-border rounded-3xl p-5 mb-4 shadow-card-md overflow-hidden relative">
-        {/* Fondo decorativo */}
-        <div className="absolute inset-0 fwc-pattern opacity-60 pointer-events-none" />
-
-        <div className="relative flex items-center gap-4">
+      <div className="bg-brand-surface border border-brand-border rounded-3xl p-5 mb-4 shadow-card-md">
+        <div className="flex items-center gap-4">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-red to-brand-gold flex items-center justify-center text-2xl shadow-red flex-shrink-0">
             ⚽
           </div>
@@ -68,9 +63,7 @@ export default function PerfilPage() {
               <Star size={10} />
               {level.name}
             </div>
-            <p className="text-brand-text font-bold leading-tight truncate">
-              {user?.displayName ?? 'Coleccionista anónimo'}
-            </p>
+            <p className="text-brand-text font-bold leading-tight">Coleccionista</p>
             <div className="flex items-center gap-3 mt-1.5">
               <div className="flex items-center gap-1">
                 <Flame size={13} className="text-brand-red" />
@@ -88,8 +81,7 @@ export default function PerfilPage() {
           </div>
         </div>
 
-        {/* Progress */}
-        <div className="relative mt-4">
+        <div className="mt-4">
           <div className="h-2.5 bg-brand-surface-2 rounded-full overflow-hidden border border-brand-border">
             <motion.div
               className="h-full bg-gradient-to-r from-brand-red to-brand-gold rounded-full"
@@ -101,25 +93,11 @@ export default function PerfilPage() {
         </div>
       </div>
 
-      {/* Login banner */}
-      {!user && (
-        <div className="bg-brand-red-light border border-red-200 rounded-2xl p-4 mb-4 flex items-center gap-3 shadow-card">
-          <div className="flex-1">
-            <p className="text-brand-text text-sm font-bold">Sincronizá tu álbum</p>
-            <p className="text-brand-muted text-xs mt-0.5">Creá cuenta para no perder tu progreso</p>
-          </div>
-          <button className="flex items-center gap-1.5 bg-brand-red text-white rounded-xl px-4 py-2.5 text-xs font-bold flex-shrink-0 shadow-red">
-            <LogIn size={13} />
-            Entrar
-          </button>
-        </div>
-      )}
-
       {/* Tabs */}
       <div className="flex bg-brand-surface border border-brand-border rounded-2xl p-1 mb-4 shadow-card">
         {[
-          { id: 'logros', label: '🏆 Mis logros'  },
-          { id: 'datos',  label: '⚙️ Mis datos'   },
+          { id: 'logros', label: '🏆 Mis logros' },
+          { id: 'datos',  label: '⚙️ Mis datos'  },
         ].map(t => (
           <button
             key={t.id}
@@ -147,7 +125,7 @@ export default function PerfilPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: i * 0.04 }}
                 className={cn(
-                  'rounded-2xl p-4 border flex flex-col items-center gap-2 text-center transition-all shadow-card',
+                  'rounded-2xl p-4 border flex flex-col items-center gap-2 text-center shadow-card',
                   unlocked
                     ? 'bg-brand-gold-light border-amber-200'
                     : 'bg-brand-surface border-brand-border opacity-50 grayscale'
@@ -172,7 +150,7 @@ export default function PerfilPage() {
       {tab === 'datos' && (
         <div className="space-y-3 pb-4">
           <div className="bg-brand-surface border border-brand-border rounded-2xl p-4 shadow-card">
-            <h3 className="text-sm font-bold text-brand-text mb-3">Resumen</h3>
+            <h3 className="text-sm font-bold text-brand-text mb-3">Resumen de tu álbum</h3>
             <div className="space-y-2.5">
               {[
                 ['Figuritas obtenidas',  stats.owned,               'text-emerald-600'],
@@ -188,6 +166,16 @@ export default function PerfilPage() {
             </div>
           </div>
 
+          <div className="bg-brand-surface-2 border border-brand-border rounded-2xl p-4">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="text-lg">💾</span>
+              <p className="text-sm font-bold text-brand-text">Guardado automático</p>
+            </div>
+            <p className="text-xs text-brand-muted">
+              Tu progreso se guarda automáticamente en este dispositivo. No necesitás crear una cuenta.
+            </p>
+          </div>
+
           <button
             onClick={exportData}
             className="w-full flex items-center justify-center gap-2 bg-brand-surface border border-brand-border rounded-2xl py-4 text-sm font-semibold text-brand-text shadow-card"
@@ -195,13 +183,6 @@ export default function PerfilPage() {
             <Download size={16} className="text-brand-muted" />
             Exportar backup (JSON)
           </button>
-
-          <div className="bg-brand-surface-2 border border-brand-border rounded-2xl p-4 text-center">
-            <p className="text-xs text-brand-faint leading-relaxed">
-              Tu progreso se guarda automáticamente en este dispositivo.<br />
-              Creá una cuenta para sincronizar entre celulares.
-            </p>
-          </div>
         </div>
       )}
     </div>
