@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:football-sticker-album.fandom.com)",
+      "WebFetch(domain:www.beckett.com)"
+    ]
+  }
+}
